@@ -1,0 +1,24 @@
+# Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Android Studio
+.idea/
+*.iml
+
+# local config
+local.properties
+
+# caches
+.cxx/
+captures/
+*.keystore
+*.jks
+
+# OS noise
+.DS_Store
+Thumbs.db
+
+# Kotlin generated
+**/build/
