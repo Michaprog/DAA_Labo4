@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    // alias(libs.plugins.devtools.ksp)
 }
 
 android {
@@ -10,7 +11,7 @@ android {
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "ch.heigvd.iict.daa.template"
+        applicationId = "ch.heigvd.iict.daa.labo4"
         minSdk = 23
         targetSdk = 36
         versionCode = 1
@@ -28,6 +29,12 @@ android {
             )
         }
     }
+
+    buildFeatures {
+        // Enable view bindings for simplifying calls to layout components
+        viewBinding = true
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -50,4 +57,5 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
 }

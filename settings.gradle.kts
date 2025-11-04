@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "daa-template"
+rootProject.name = "daa-labo4"
 include(":app")
  
