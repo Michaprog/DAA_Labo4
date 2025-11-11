@@ -12,3 +12,11 @@ Si vous souhaitez renommer l'application et changer son identifiant, voici les o
 - Changer le nom du projet dans le fichier `.idea/.name`
 - Editer la propriété `applicationId` dans le fichier `build.gradle.kts` du module `app`
 - Idéalement, il faudrait également modifier le nom de package (propriété `namespace` du fichier `build.gradle.kts`) ainsi que refactoriser le code
+
+
+### Notes
+
+Android Room < sqlite
+
+Pour debuguer les donnees Android Room :
+View > Tool Windows > App Inspection
