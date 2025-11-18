@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">DAA lab 4</string>
+    <string name="welcome">Welcome to DAA !</string>
     <string name="actionGenerate">Generate</string>
     <string name="actionDeleteAll">Delete All</string>
-    <string name="triMenu">Tri</string>
     <string name="triCreation">Creation date</string>
     <string name="triETA">ETA</string>
 </resources>
