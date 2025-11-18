@@ -1,5 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/actionTri"
+        android:title="@string/triMenu"
+        android:icon="@android:drawable/ic_menu_sort_by_size"
+        app:showAsAction="ifRoom|withText">
+        <menu>
+            <item
+                android:id="@+id/triCreation"
+                android:title="@string/triCreation"/>
+            <item
+                android:id="@+id/triETA"
+                android:title="@string/triETA"/>
+        </menu>
+    </item>
+
     <item
         android:id="@+id/actionGenerate"
         android:title="@string/actionGenerate" />
