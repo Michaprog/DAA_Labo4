@@ -1,6 +1,8 @@
 package ch.heigvd.iict.daa.labo4
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -27,8 +29,20 @@ class MainActivity : AppCompatActivity() {
         // la barre d'action doit être définie dans le layout, on la lie à l'activité
         setSupportActionBar(findViewById(R.id.toolbar))
 
-        // TODO ...
-
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_action, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId) {
+            R.id.triCreation -> { /* do something */ true }
+            R.id.triETA -> { /* do something */ true }
+            R.id.actionGenerate -> { /* do something */ true }
+            R.id.actionDeleteAll -> { /* do something */ true }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
 }
