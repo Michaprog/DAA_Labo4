@@ -5,12 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import ch.heigvd.iict.daa.labo4.MyApp
 import ch.heigvd.iict.daa.labo4.MyNoteRecyclerViewAdapter
 import ch.heigvd.iict.daa.labo4.NotesViewModel
+import ch.heigvd.iict.daa.labo4.NotesViewModelFactory
 import ch.heigvd.iict.daa.labo4.R
 import ch.heigvd.iict.daa.labo4.placeholder.PlaceholderContent
 
@@ -20,13 +23,21 @@ import ch.heigvd.iict.daa.labo4.placeholder.PlaceholderContent
 class NotesFragment : Fragment() {
 
     private var columnCount = 1
-    private val viewModel: NotesViewModel by viewModels()
+    // On utilise activityViewModels pour partager le ViewModel avec l'activité hôte
+    private val viewModel : NotesViewModel by activityViewModels {
+        val app = requireActivity().application as MyApp
+        NotesViewModelFactory(app.repository)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         arguments?.let {
             columnCount = it.getInt(ARG_COLUMN_COUNT)
+        }
+
+        viewModel.allNotes.observe(this) { notes ->
+            // TODO update RecyclerView with notes
         }
     }
 

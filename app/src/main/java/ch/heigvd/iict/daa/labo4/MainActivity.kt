@@ -4,11 +4,17 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
 class MainActivity : AppCompatActivity() {
+
+    // ViewModel disposant d’une Factory depuis un Activité
+    private val viewModel: NotesViewModel by viewModels {
+        NotesViewModelFactory((application as MyApp).repository)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +46,11 @@ class MainActivity : AppCompatActivity() {
         return when(item.itemId) {
             R.id.triCreation -> { /* do something */ true }
             R.id.triETA -> { /* do something */ true }
-            R.id.actionGenerate -> { /* do something */ true }
+            R.id.actionGenerate -> {
+                /* Generate a note */
+                viewModel.generateANote()
+                true
+            }
             R.id.actionDeleteAll -> { /* do something */ true }
             else -> super.onOptionsItemSelected(item)
         }
