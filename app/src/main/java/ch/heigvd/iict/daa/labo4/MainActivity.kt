@@ -9,6 +9,9 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import ch.heigvd.iict.daa.labo4.viewmodel.NotesViewModel
+import ch.heigvd.iict.daa.labo4.viewmodel.NotesViewModel.SortOrder
+import ch.heigvd.iict.daa.labo4.viewmodel.NotesViewModelFactory
 
 class MainActivity : AppCompatActivity() {
 
@@ -51,16 +54,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when(item.itemId) {
-            R.id.triCreation -> { /* do something */ true }
-            R.id.triETA -> { /* do something */ true }
-            R.id.actionGenerate -> {
-                /* Generate a note */
-                viewModel.generateANote()
-                true
-            }
-            R.id.actionDeleteAll -> { /* do something */ true }
+        when (item.itemId) {
+            R.id.triCreation -> viewModel.setSortOrder(SortOrder.BY_CREATION)
+            R.id.triETA -> viewModel.setSortOrder(SortOrder.BY_DUE_DATE)
+            R.id.actionGenerate -> viewModel.generateANote() /* Generate a note */
+            R.id.actionDeleteAll -> viewModel.deleteAllNote() /* Delete all notes */
             else -> super.onOptionsItemSelected(item)
         }
+
+        return true
     }
 }

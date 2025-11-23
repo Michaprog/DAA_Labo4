@@ -7,6 +7,7 @@ import ch.heigvd.iict.daa.labo4.models.Schedule
 import kotlin.concurrent.thread
 
 class Repository(private val noteDao: NoteDao) {
+    val allNotes = noteDao.getAllNotes() //: LiveData<List<NoteAndSchedule>>
     val allNotesByCreatedDesc = noteDao.getAllByCreatedDesc() //: LiveData<List<NoteAndSchedule>>
     val allNotesByDueDateAsc = noteDao.getAllByDueDateAsc() //: LiveData<List<NoteAndSchedule>>
     val countNotes = noteDao.countNotes() //: LiveData<Long>

@@ -1,6 +1,7 @@
 package ch.heigvd.iict.daa.labo4.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,9 +12,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ch.heigvd.iict.daa.labo4.MyApp
 import ch.heigvd.iict.daa.labo4.MyNoteRecyclerViewAdapter
-import ch.heigvd.iict.daa.labo4.NotesViewModel
-import ch.heigvd.iict.daa.labo4.NotesViewModelFactory
 import ch.heigvd.iict.daa.labo4.R
+import ch.heigvd.iict.daa.labo4.viewmodel.NotesViewModel
+import ch.heigvd.iict.daa.labo4.viewmodel.NotesViewModelFactory
 
 class NotesFragment : Fragment() {
 
@@ -55,7 +56,8 @@ class NotesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // observer avec viewLifecycleOwner, pas 'this'
-        viewModel.allNotes.observe(viewLifecycleOwner) { notes ->
+        viewModel.sortedNotes.observe(viewLifecycleOwner) { notes ->
+            Log.d("NotesFragment", "Updating notes: $notes")
             adapter.updateNotes(notes)
         }
     }

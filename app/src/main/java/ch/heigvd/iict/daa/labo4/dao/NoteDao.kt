@@ -8,6 +8,11 @@ import ch.heigvd.iict.daa.labo4.models.*
 @Dao
 interface NoteDao {
 
+    // All notes with their Schedule (if any)
+    @Transaction
+    @Query("SELECT * FROM Note")
+    fun getAllNotes(): LiveData<List<NoteAndSchedule>>
+
     // All notes sorted by creation date (newest first)
     @Transaction
     @Query("SELECT * FROM Note ORDER BY creationDate DESC")

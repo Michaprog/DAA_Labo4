@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import com.google.android.material.button.MaterialButton
 import ch.heigvd.iict.daa.labo4.MyApp
-import ch.heigvd.iict.daa.labo4.NotesViewModel
-import ch.heigvd.iict.daa.labo4.NotesViewModelFactory
 import ch.heigvd.iict.daa.labo4.R
+import ch.heigvd.iict.daa.labo4.viewmodel.NotesViewModel
+import ch.heigvd.iict.daa.labo4.viewmodel.NotesViewModelFactory
+import com.google.android.material.button.MaterialButton
 
 class ControlFragment : Fragment() {
 
@@ -32,12 +32,12 @@ class ControlFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val generateBtn = view.findViewById<MaterialButton>(R.id.button_generate)
-        val deleteBtn   = view.findViewById<MaterialButton>(R.id.button_delete)
-        val countText   = view.findViewById<TextView>(R.id.text_count)
+        val deleteBtn = view.findViewById<MaterialButton>(R.id.button_delete)
+        val countText = view.findViewById<TextView>(R.id.text_count)
 
         // buttons -> ViewModel
         generateBtn.setOnClickListener { viewModel.generateANote() }
-        deleteBtn.setOnClickListener   { viewModel.deleteAllNote() }
+        deleteBtn.setOnClickListener { viewModel.deleteAllNote() }
 
         // observe count and update label
         viewModel.countNotes.observe(viewLifecycleOwner) { count ->

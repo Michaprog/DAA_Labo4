@@ -1,11 +1,12 @@
-package ch.heigvd.iict.daa.labo4
+package ch.heigvd.iict.daa.labo4.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import ch.heigvd.iict.daa.labo4.Repository
 
 class NotesViewModelFactory(private val repository: Repository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if(modelClass.isAssignableFrom(NotesViewModel::class.java)) {
+        if (modelClass.isAssignableFrom(NotesViewModel::class.java)) {
             return NotesViewModel(repository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
