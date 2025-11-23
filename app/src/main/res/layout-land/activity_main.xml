@@ -32,26 +32,29 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent">
 
+        <!-- LEFT fragment -->
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/main_fragment_left"
-            android:layout_width="0dip"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:name="ch.heigvd.iict.daa.labo4.fragments.NotesFragment"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintEnd_toStartOf="@id/main_fragment_right"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_weight="1" />
 
-        <!-- Make this part work only in horizental mode-->
+        <!-- RIGHT fragment (only exists in landscape) -->
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/main_fragment_right"
-            android:layout_width="0dip"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:name="ch.heigvd.iict.daa.labo4.fragments.ControlFragment"
             app:layout_constraintStart_toEndOf="@id/main_fragment_left"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_weight="1" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -5,4 +5,6 @@
     <string name="triMenu">Tri</string>
     <string name="triCreation">Creation date</string>
     <string name="triETA">ETA</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
