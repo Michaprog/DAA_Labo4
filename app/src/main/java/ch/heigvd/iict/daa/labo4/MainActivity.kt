@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity() {
 
     // ViewModel disposant d’une Factory depuis un Activité
     private val viewModel: NotesViewModel by viewModels {
-        NotesViewModelFactory((application as MyApp).repository)
+        NotesViewModelFactory((application as MyApp).repository, applicationContext)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

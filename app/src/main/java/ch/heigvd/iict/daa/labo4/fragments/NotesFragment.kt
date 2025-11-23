@@ -22,7 +22,7 @@ class NotesFragment : Fragment() {
 
     private val viewModel: NotesViewModel by activityViewModels {
         val app = requireActivity().application as MyApp
-        NotesViewModelFactory(app.repository)
+        NotesViewModelFactory(app.repository, requireContext())
     }
 
     private lateinit var recyclerView: RecyclerView

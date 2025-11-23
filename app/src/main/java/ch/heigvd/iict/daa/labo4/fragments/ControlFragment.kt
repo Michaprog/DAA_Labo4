@@ -18,7 +18,7 @@ class ControlFragment : Fragment() {
     // shared ViewModel with the Activity (and NotesFragment)
     private val viewModel: NotesViewModel by activityViewModels {
         val app = requireActivity().application as MyApp
-        NotesViewModelFactory(app.repository)
+        NotesViewModelFactory(app.repository, requireContext())
     }
 
     override fun onCreateView(
