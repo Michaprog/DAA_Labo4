@@ -1,48 +1,44 @@
 package ch.heigvd.iict.daa.labo4
 
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
-
-import ch.heigvd.iict.daa.labo4.placeholder.PlaceholderContent.PlaceholderNote
+import androidx.recyclerview.widget.RecyclerView
 import ch.heigvd.iict.daa.labo4.databinding.FragmentNoteBinding
+import ch.heigvd.iict.daa.labo4.models.NoteAndSchedule
 
-/**
- * [RecyclerView.Adapter] that can display a [PlaceholderNote].
- * TODO: Replace the implementation with code for your data type.
- */
 class MyNoteRecyclerViewAdapter(
-    private val values: List<PlaceholderNote>
+    private var values: List<NoteAndSchedule>
 ) : RecyclerView.Adapter<MyNoteRecyclerViewAdapter.ViewHolder>() {
 
+    fun updateNotes(newValues: List<NoteAndSchedule>) {
+        values = newValues
+        // For the lab this is fine; in a real app you'd use DiffUtil.
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-
-        return ViewHolder(
-            FragmentNoteBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            )
+        val binding = FragmentNoteBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
         )
-
+        return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val note = values[position]
-        holder.idView.text = note.id
-        holder.contentView.text = note.content
+        val noteAndSchedule = values[position]
+        val note = noteAndSchedule.note
+
+        holder.idView.text = note.noteId.toString()
+        holder.contentView.text = note.title      // change to whatever field you want to show
     }
 
     override fun getItemCount(): Int = values.size
 
-    inner class ViewHolder(binding: FragmentNoteBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(binding: FragmentNoteBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         val idView: TextView = binding.itemNumber
         val contentView: TextView = binding.content
-
-        override fun toString(): String {
-            return super.toString() + " '" + contentView.text + "'"
-        }
     }
-
 }

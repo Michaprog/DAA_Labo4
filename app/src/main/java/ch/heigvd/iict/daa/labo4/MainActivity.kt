@@ -17,9 +17,6 @@ class MainActivity : AppCompatActivity() {
         NotesViewModelFactory((application as MyApp).repository)
     }
 
-    private val hasControlPane: Boolean
-        get() = findViewById<View?>(R.id.main_fragment_right) != null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -38,14 +35,18 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    private fun hasRightPane(): Boolean =
+        findViewById<View?>(R.id.main_fragment_right) != null
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_action, menu)
 
-        // On tablette : on masque les actions qui sont gérées par ControlFragment
-        if (hasControlPane) {
+        // On tablette, cacher les actions qui sont dans le ControlFragment
+        if (hasRightPane()) {
             menu.findItem(R.id.actionGenerate)?.isVisible = false
             menu.findItem(R.id.actionDeleteAll)?.isVisible = false
         }
+
         return true
     }
 

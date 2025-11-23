@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,29 +14,23 @@ import ch.heigvd.iict.daa.labo4.MyNoteRecyclerViewAdapter
 import ch.heigvd.iict.daa.labo4.NotesViewModel
 import ch.heigvd.iict.daa.labo4.NotesViewModelFactory
 import ch.heigvd.iict.daa.labo4.R
-import ch.heigvd.iict.daa.labo4.placeholder.PlaceholderContent
 
-/**
- * A fragment representing a list of Notes.
- */
 class NotesFragment : Fragment() {
 
     private var columnCount = 1
-    // On utilise activityViewModels pour partager le ViewModel avec l'activité hôte
-    private val viewModel : NotesViewModel by activityViewModels {
+
+    private val viewModel: NotesViewModel by activityViewModels {
         val app = requireActivity().application as MyApp
         NotesViewModelFactory(app.repository)
     }
 
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var adapter: MyNoteRecyclerViewAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         arguments?.let {
             columnCount = it.getInt(ARG_COLUMN_COUNT)
-        }
-
-        viewModel.allNotes.observe(this) { notes ->
-            // TODO update RecyclerView with notes
         }
     }
 
@@ -46,26 +39,30 @@ class NotesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_note_list, container, false)
+        recyclerView = view.findViewById(R.id.fragment_note_list)
 
-        // Set the adapter
-        if (view is RecyclerView) {
-            with(view) {
-                layoutManager = when {
-                    columnCount <= 1 -> LinearLayoutManager(context)
-                    else -> GridLayoutManager(context, columnCount)
-                }
-                adapter = MyNoteRecyclerViewAdapter(PlaceholderContent.NOTES)
-            }
-        }
+        recyclerView.layoutManager =
+            if (columnCount <= 1) LinearLayoutManager(context)
+            else GridLayoutManager(context, columnCount)
+
+        adapter = MyNoteRecyclerViewAdapter(emptyList())
+        recyclerView.adapter = adapter
+
         return view
     }
 
-    companion object {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        // TODO: Customize parameter argument names
+        // observer avec viewLifecycleOwner, pas 'this'
+        viewModel.allNotes.observe(viewLifecycleOwner) { notes ->
+            adapter.updateNotes(notes)
+        }
+    }
+
+    companion object {
         const val ARG_COLUMN_COUNT = "column-count"
 
-        // TODO: Customize parameter initialization
         @JvmStatic
         fun newInstance(columnCount: Int) =
             NotesFragment().apply {
