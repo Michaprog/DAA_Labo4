@@ -19,10 +19,9 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary" />
-
     </com.google.android.material.appbar.AppBarLayout>
 
-    <!-- Contenu -->
+    <!-- Contenu : 2 fragments côte à côte -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/appcontent"
         android:layout_width="0dp"
@@ -32,31 +31,30 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent">
 
-        <!-- LEFT fragment -->
+        <!-- Liste -->
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/main_fragment_left"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:name="ch.heigvd.iict.daa.labo4.fragments.NotesFragment"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/main_fragment_right"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/main_fragment_right"
             app:layout_constraintHorizontal_weight="1" />
 
-        <!-- RIGHT fragment (only exists in landscape) -->
+        <!-- Contrôle (tablet only) -->
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/main_fragment_right"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:name="ch.heigvd.iict.daa.labo4.fragments.ControlFragment"
-            app:layout_constraintStart_toEndOf="@id/main_fragment_left"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/main_fragment_left"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_weight="1" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,6 +3,7 @@ package ch.heigvd.iict.daa.labo4
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -16,16 +17,16 @@ class MainActivity : AppCompatActivity() {
         NotesViewModelFactory((application as MyApp).repository)
     }
 
+    private val hasControlPane: Boolean
+        get() = findViewById<View?>(R.id.main_fragment_right) != null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         // depuis android 15 (sdk 35), le mode edge2edge doit être activé
         enableEdgeToEdge()
-
-        // on spécifie le layout à afficher
         setContentView(R.layout.activity_main)
 
-        // comme edge2edge est activé, l'application doit garder un espace suffisant pour la barre système
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -37,9 +38,15 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_action, menu)
-        return super.onCreateOptionsMenu(menu)
+
+        // On tablette : on masque les actions qui sont gérées par ControlFragment
+        if (hasControlPane) {
+            menu.findItem(R.id.actionGenerate)?.isVisible = false
+            menu.findItem(R.id.actionDeleteAll)?.isVisible = false
+        }
+        return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
