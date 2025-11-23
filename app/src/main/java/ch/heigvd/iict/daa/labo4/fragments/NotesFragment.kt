@@ -46,7 +46,7 @@ class NotesFragment : Fragment() {
             if (columnCount <= 1) LinearLayoutManager(context)
             else GridLayoutManager(context, columnCount)
 
-        adapter = MyNoteRecyclerViewAdapter(emptyList())
+        adapter = MyNoteRecyclerViewAdapter()
         recyclerView.adapter = adapter
 
         return view
@@ -64,13 +64,5 @@ class NotesFragment : Fragment() {
 
     companion object {
         const val ARG_COLUMN_COUNT = "column-count"
-
-        @JvmStatic
-        fun newInstance(columnCount: Int) =
-            NotesFragment().apply {
-                arguments = Bundle().apply {
-                    putInt(ARG_COLUMN_COUNT, columnCount)
-                }
-            }
     }
 }
