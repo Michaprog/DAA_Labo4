@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <!-- Barre d'action -->
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbarlayout"
         android:layout_width="match_parent"
@@ -22,27 +21,14 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <!-- Contenu -->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/appcontent"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/main_fragment_left"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:name="ch.heigvd.iict.daa.labo4.fragments.NotesFragment"
         app:layout_constraintTop_toBottomOf="@id/appbarlayout"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <!-- CHANGE ME -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/welcome"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
