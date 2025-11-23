@@ -15,7 +15,7 @@ class Repository(private val noteDao: NoteDao) {
     fun insertNoteWithSchedule(note: Note, schedule: Schedule?) {
         thread {
             noteDao.insertNoteWithSchedule(note, schedule)
-            Log.d("Repository", "Inserted note=${note}")
+            Log.d("Repository", "Inserted note=${note} with schedule=${schedule}")
         }
     }
 

@@ -10,7 +10,6 @@ import androidx.lifecycle.switchMap
 import ch.heigvd.iict.daa.labo4.Repository
 import ch.heigvd.iict.daa.labo4.models.Note
 import ch.heigvd.iict.daa.labo4.models.NoteAndSchedule
-import kotlin.random.Random
 
 class NotesViewModel(
     private val repository: Repository,
@@ -47,14 +46,13 @@ class NotesViewModel(
     /* création d’une Note aléatoire et insertion dans base de données */
     fun generateANote() {
         val note = Note.generateRandomNote()
-        val schedule =
-            if (Random.nextBoolean()) Note.generateRandomSchedule() else null
+        val schedule = Note.generateRandomSchedule()
         repository.insertNoteWithSchedule(note, schedule)
     }
 
     /* suppression de toutes les Notes de la base de données */
     fun deleteAllNote() = repository.deleteAll()
-    
+
     private fun loadSortOrder(): SortOrder {
         val orderName = prefs.getString("sort_order", SortOrder.BY_CREATION.name)
         return SortOrder.valueOf(orderName ?: SortOrder.BY_CREATION.name)

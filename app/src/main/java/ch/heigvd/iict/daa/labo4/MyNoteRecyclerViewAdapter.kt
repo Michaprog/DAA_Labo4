@@ -1,8 +1,10 @@
 package ch.heigvd.iict.daa.labo4
 
+import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.AsyncListDiffer
@@ -10,6 +12,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import ch.heigvd.iict.daa.labo4.models.NoteAndSchedule
 import ch.heigvd.iict.daa.labo4.models.State
+import ch.heigvd.iict.daa.labo4.models.Type as NoteType
 
 class MyNoteRecyclerViewAdapter :
     RecyclerView.Adapter<MyNoteRecyclerViewAdapter.ViewHolder>() {
@@ -59,19 +62,87 @@ class MyNoteRecyclerViewAdapter :
         // date de création
         holder.created.text = note.creationDate.time.toString()
 
+        // Formater la date de création
+        holder.created.text = DateUtils.getRelativeTimeSpanString(
+            note.creationDate.timeInMillis,
+            System.currentTimeMillis(),
+            DateUtils.MINUTE_IN_MILLIS,
+            DateUtils.FORMAT_ABBREV_RELATIVE
+        )
+
         // date d’échéance (si Schedule présent)
         if (schedule != null) {
             holder.due.visibility = View.VISIBLE
-            holder.due.text = schedule.date.time.toString()
+            // Formater la date d'échéance si elle existe
+            holder.due.text = DateUtils.getRelativeTimeSpanString(
+                schedule.date.timeInMillis,
+                System.currentTimeMillis(),
+                DateUtils.MINUTE_IN_MILLIS,
+                DateUtils.FORMAT_ABBREV_RELATIVE
+            )
         } else {
             holder.due.visibility = View.GONE
         }
 
         // Couleur selon State (on garde ça, c'est cheap et utile)
         val context = holder.itemView.context
+
+        // Icône selon le type
+        when (note.type) {
+            NoteType.NONE -> {
+                holder.iconType.setImageResource(R.drawable.note)
+                holder.iconType.setColorFilter(
+                    ContextCompat.getColor(
+                        context,
+                        android.R.color.holo_blue_dark
+                    )
+                )
+            }
+
+            NoteType.TODO -> {
+                holder.iconType.setImageResource(R.drawable.todo)
+                holder.iconType.setColorFilter(
+                    ContextCompat.getColor(
+                        context,
+                        android.R.color.holo_orange_dark
+                    )
+                )
+            }
+
+            NoteType.SHOPPING -> {
+                holder.iconType.setImageResource(R.drawable.shopping)
+                holder.iconType.setColorFilter(
+                    ContextCompat.getColor(
+                        context,
+                        android.R.color.holo_green_dark
+                    )
+                )
+            }
+
+            NoteType.WORK -> {
+                holder.iconType.setImageResource(R.drawable.work)
+                holder.iconType.setColorFilter(
+                    ContextCompat.getColor(
+                        context,
+                        android.R.color.holo_purple
+                    )
+                )
+            }
+
+            NoteType.FAMILY -> {
+                holder.iconType.setImageResource(R.drawable.family)
+                holder.iconType.setColorFilter(
+                    ContextCompat.getColor(
+                        context,
+                        android.R.color.holo_red_dark
+                    )
+                )
+            }
+        }
+
         val colorRes = when (note.state) {
             State.IN_PROGRESS -> android.R.color.holo_orange_dark
-            State.DONE        -> android.R.color.holo_green_dark
+            State.DONE -> android.R.color.holo_green_dark
         }
         val color = ContextCompat.getColor(context, colorRes)
         holder.state.setTextColor(color)
@@ -86,6 +157,7 @@ class MyNoteRecyclerViewAdapter :
         val state: TextView = itemView.findViewById(R.id.text_state)
         val created: TextView = itemView.findViewById(R.id.text_created)
         val due: TextView = itemView.findViewById(R.id.text_due)
+        val iconType: ImageView = itemView.findViewById(R.id.icon_type)
     }
 
     private class NoteDiffCallback : DiffUtil.ItemCallback<NoteAndSchedule>() {
@@ -93,7 +165,10 @@ class MyNoteRecyclerViewAdapter :
             return oldItem.note.noteId == newItem.note.noteId
         }
 
-        override fun areContentsTheSame(oldItem: NoteAndSchedule, newItem: NoteAndSchedule): Boolean {
+        override fun areContentsTheSame(
+            oldItem: NoteAndSchedule,
+            newItem: NoteAndSchedule
+        ): Boolean {
             return oldItem == newItem
         }
     }
