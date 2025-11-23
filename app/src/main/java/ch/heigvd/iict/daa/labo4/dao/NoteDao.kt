@@ -1,5 +1,5 @@
 // ch/heigvd/iict/daa/labo4/data/NoteDao.kt
-package ch.heigvd.iict.daa.labo4.data
+package ch.heigvd.iict.daa.labo4.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
@@ -26,32 +26,36 @@ interface NoteDao {
 
     // Count total notes
     @Query("SELECT COUNT(*) FROM Note")
-    fun countNotes(): LiveData<Int>
+    fun countNotes(): LiveData<Long>
+
+    // Count total notes direct
+    @Query("SELECT COUNT(*) FROM Note")
+    fun countNotesDirect() : Long
 
     // Insert new Note
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertNote(note: Note): Long
+    fun insertNote(note: Note): Long
 
     // Insert Schedule linked to Note
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertSchedule(schedule: Schedule): Long
+    fun insertSchedule(schedule: Schedule): Long
 
     // Helper: insert both
     @Transaction
-    suspend fun insertNoteWithSchedule(note: Note, schedule: Schedule?) {
+    fun insertNoteWithSchedule(note: Note, schedule: Schedule?) {
         val noteId = insertNote(note)
         schedule?.let { insertSchedule(it.copy(ownerId = noteId)) }
     }
 
     // Delete everything
     @Query("DELETE FROM Schedule")
-    suspend fun deleteAllSchedules()
+    fun deleteAllSchedules()
 
     @Query("DELETE FROM Note")
-    suspend fun deleteAllNotes()
+    fun deleteAllNotes()
 
     @Transaction
-    suspend fun deleteAll() {
+    fun deleteAll() {
         deleteAllSchedules()
         deleteAllNotes()
     }

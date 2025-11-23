@@ -4,9 +4,11 @@ package ch.heigvd.iict.daa.labo4.data
 import android.content.Context
 import androidx.room.*
 import androidx.sqlite.db.SupportSQLiteDatabase
+import ch.heigvd.iict.daa.labo4.converters.Converters
+import ch.heigvd.iict.daa.labo4.dao.NoteDao
 import ch.heigvd.iict.daa.labo4.models.*
-import kotlinx.coroutines.*
 import java.util.*
+import kotlin.concurrent.thread
 
 @Database(
     entities = [Note::class, Schedule::class],
@@ -21,33 +23,37 @@ abstract class AppDatabase : RoomDatabase() {
     companion object {
         @Volatile private var INSTANCE: AppDatabase? = null
 
-        fun getInstance(context: Context, scope: CoroutineScope): AppDatabase =
+        fun getInstance(context: Context): AppDatabase =
             INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     AppDatabase::class.java,
                     "notes_database"
                 )
-                    .addCallback(SeedDatabaseCallback(scope))
+                    .addCallback(SeedDatabaseCallback())
                     .build()
                 INSTANCE = instance
                 instance
             }
     }
 
-    private class SeedDatabaseCallback(
-        private val scope: CoroutineScope
-    ) : RoomDatabase.Callback() {
+    private class SeedDatabaseCallback() : Callback() {
         override fun onCreate(db: SupportSQLiteDatabase) {
             super.onCreate(db)
             INSTANCE?.let { database ->
-                scope.launch(Dispatchers.IO) { populate(database.noteDao()) }
+                thread {
+                    val isEmpty = database.noteDao().countNotesDirect() == 0L
+                    if (isEmpty) {
+                        // Peupler DB a la 1ere creation (async)
+                        populate(database.noteDao())
+                    }
+                }
             }
         }
     }
 }
 
-suspend fun populate(dao: NoteDao) {
+private fun populate(dao: NoteDao) {
     dao.deleteAll()
     repeat(5) {
         val note = Note.generateRandomNote()

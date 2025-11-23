@@ -1,5 +1,5 @@
 // ch/heigvd/iict/daa/labo4/data/Converters.kt
-package ch.heigvd.iict.daa.labo4.data
+package ch.heigvd.iict.daa.labo4.converters
 
 import androidx.room.TypeConverter
 import ch.heigvd.iict.daa.labo4.models.State
